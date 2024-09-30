@@ -45,7 +45,7 @@ def runComposeUp(ymlFilePath:str=".",  build:bool=False, client=client):
         build (bool, optional): if it is True, the images are built before starting the containers. Defaults to False.
     """
 
-    command = ["docker-compose", "-f", ymlFilePath, "up", "-d"]
+    command = ["docker", "compose", "-f", ymlFilePath, "up", "-d"]
     if build:
         command.append("--build")
     try:

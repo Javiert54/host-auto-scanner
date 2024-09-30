@@ -29,7 +29,7 @@ services:
   
   nessus:
     image: tenable/nessus:10.8.2-oracle
-    container_name: nessus
+    container_name: nessusContainer
     ports:
       - "8834:8834"
     depends_on:
