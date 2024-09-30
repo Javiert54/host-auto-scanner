@@ -103,7 +103,8 @@ if  __name__ == "__main__":
     carpeta_script = os.path.dirname(os.path.abspath(__file__)) #Obtenemos la ruta de mi script
     # buildDockerfileImage('nessus')
     removeContainer("nessusContainer")
-    runComposeUp(f"{carpeta_script}\\mariadb\\docker-compose.yml", build=True)
+    
+    runComposeUp(os.path.join(carpeta_script, "docker-compose.yml"), build=True)
     # container = runContainer("nessus", "nessusContainer")
     # Ejecuta el contenedor de nessus
 

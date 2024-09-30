@@ -1,0 +1,36 @@
+# version: '3.8'
+
+services:
+
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: backend_db
+      MYSQL_USER: admin@localhost.com
+      MYSQL_PASSWORD: 1234
+    volumes:
+      - ./mariadb/db_data:/var/lib/mysql
+      - ./mariadb/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3307:3306"
+
+  flask:
+    build: ./mariadb/backend
+    container_name: flask_server
+    environment:
+      FLASK_APP: 'app.py'
+      FLASK_ENV: 'development'
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mariadb
+  
+  nessus:
+    image: tenable/nessus:10.8.2-oracle
+    container_name: nessus
+    ports:
+      - "8834:8834"
+    depends_on:
+      - flask
