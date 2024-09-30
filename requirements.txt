@@ -1,0 +1,4 @@
+beautifulsoup4==4.12.3
+docker_py==1.10.6
+selenium==4.24.0
+webdriver_manager==4.0.2
