@@ -48,7 +48,7 @@ if  __name__ == "__main__":
     dF.runComposeUp(os.path.join(carpeta_script, "docker-compose.yml"), build=True)
     # Ejecuta el archivo de docker-compose
 
-    time.sleep(3)
+    time.sleep(4)
     driver.get(URL)
     time.sleep(3)
     button = wF.waitForElement(By.CSS_SELECTOR, '[data-name="continue"]', driver)
