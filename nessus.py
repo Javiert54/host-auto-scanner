@@ -50,7 +50,7 @@ if  __name__ == "__main__":
 
     time.sleep(3)
     driver.get(URL)
-    time.sleep(1)
+    time.sleep(3)
     button = wF.waitForElement(By.CSS_SELECTOR, '[data-name="continue"]', driver)
     while button is None:
         button = wF.waitForElement(By.CSS_SELECTOR, '[data-name="continue"]', driver)
