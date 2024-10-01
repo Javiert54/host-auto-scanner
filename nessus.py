@@ -8,12 +8,17 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import os
 from dotenv import load_dotenv
+import platform
 import dockerFunctions as dF
 import webFunctions as wF
 load_dotenv()
 # Inicializa el cliente Docker
 
 client = docker.from_env()
+systems = { "Windows":"chrome\\chromedriver-win64\\chromedriver.exe",
+           "Linux":"chrome/chromedriver-linux64/chromedriver",
+           "Darwin":"chrome/chromedriver-mac64/chromedriver"}
+
 
 ACTIVATION_CODE = os.getenv('ACTIVATION_CODE')
 USERNAME_NESSUS = os.getenv('USERNAME_NESSUS')
@@ -27,7 +32,9 @@ browser_options = browser_options = webdriver.ChromeOptions()
 browser_options.add_argument('--ignore-certificate-errors')
 browser_options.add_argument('--allow-insecure-localhost')
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=browser_options, keep_alive=True)
+
+driver = webdriver.Chrome(service=Service(systems[platform.system()]), options=browser_options, keep_alive=True)
+
 
 
 # Abre la página web con el formulario
@@ -57,10 +64,6 @@ if  __name__ == "__main__":
         wF.waitForElement(By.CSS_SELECTOR, '[data-name="btn-continue"]', driver)[2].click()
         wF.waitForElement(By.CSS_SELECTOR, '[data-name="continue"]', driver)[0].click()
     except Exception as e:
-        print("------- Error en el login -------")
-        print("------- Error en el login -------")
-        print("------- Error en el login -------")
-        print(f"Error: {e}\n")
         wF.waitForElement(By.CSS_SELECTOR, '[data-value="ESSENTIALS"]', driver)[0].click()    
         wF.waitForElement(By.CLASS_NAME, 'secondary', driver)[0].click()
         wF.waitForElement(By.CSS_SELECTOR, '[data-field="activation"]', driver)[0].send_keys(ACTIVATION_CODE)
