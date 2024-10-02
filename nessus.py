@@ -32,8 +32,8 @@ browser_options = browser_options = webdriver.ChromeOptions()
 browser_options.add_argument('--ignore-certificate-errors')
 browser_options.add_argument('--allow-insecure-localhost')
 
-
-driver = webdriver.Chrome(service=Service(systems[platform.system()]), options=browser_options, keep_alive=True)
+chromeDriverPath = os.path.join(os.getcwd(), systems[platform.system()])
+driver = webdriver.Chrome(service=Service(chromeDriverPath), options=browser_options, keep_alive=True)
 
 
 
