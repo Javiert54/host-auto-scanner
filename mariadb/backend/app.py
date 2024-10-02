@@ -20,30 +20,30 @@ def get_db_connection():
     return connection
 
 
-@app.route('/get-users', methods=['GET'])
+@app.route('/get-hosts', methods=['GET'])
 def get_users():
     try:
         connection = get_db_connection()
         cursor = connection.cursor()
 
-        query = "SELECT * FROM users"
+        query = "SELECT * FROM hostsToScann"
         cursor.execute(query)
         rows = cursor.fetchall()
 
     except mysql.connector.Error as e:
         logging.error(f"MySQL error: {e}")
-        response = make_response(jsonify({'response': 'Users could not be obtained'}), 400)
+        response = make_response(jsonify({'response': 'Hosts could not be obtained'}), 400)
         return response
 
     except Exception as e:
         logging.exception(f"Exception: {e}")
-        response = make_response(jsonify({'response': 'Users could not be obtained'}), 400)
+        response = make_response(jsonify({'response': 'Hosts could not be obtained'}), 400)
         return response
 
     response = make_response(jsonify({"response": rows}), 201)
     return response
 
-@app.route('/insert-user', methods=['POST'])
+@app.route('/insert-host', methods=['POST'])
 def insert_user():
     try:
         connection = get_db_connection()
@@ -56,24 +56,24 @@ def insert_user():
             data.get('password')
         ).decode('utf-8')
 
-        query = f"INSERT INTO {DATABASE_NAME}.users VALUES (%s, %s, %s)"
+        query = f"INSERT INTO {DATABASE_NAME}.hostsToScann VALUES (%s, %s, %s)"
         cursor.execute(query, (username, email, password))
         connection.commit()
 
     except mysql.connector.Error as e:
         logging.error(f"MySQL error: {e}")
-        response = make_response(jsonify({'response': 'Users could not be inserted'}), 400)
+        response = make_response(jsonify({'response': 'Hosts could not be inserted'}), 400)
         return response
 
     except Exception as e:
         logging.exception(f"Exception: {e}")
-        response = make_response(jsonify({'response': 'Users could not be inserted'}), 400)
+        response = make_response(jsonify({'response': 'Hosts could not be inserted'}), 400)
         return response
 
-    response = make_response(jsonify({"response": "User inserted successfully!"}), 201)
+    response = make_response(jsonify({"response": "Host inserted successfully!"}), 201)
     return response
 
-@app.route('/delete-user', methods=['DELETE'])
+@app.route('/delete-host', methods=['DELETE'])
 def delete_user():
     try:
         connection = get_db_connection()
@@ -84,22 +84,22 @@ def delete_user():
 
         # Additional error handling to prevent deletion using integer or boolean
         if isinstance(user_to_remove, int) or isinstance(user_to_remove, bool):
-            return make_response(jsonify({'response': 'Invalid user format'}), 400)
+            return make_response(jsonify({'response': 'Invalid host format'}), 400)
 
-        query = f"DELETE FROM users WHERE users.username = (%s)"
+        query = "DELETE FROM hostsToScann WHERE hostsToScann.id = (%s)"
         cursor.execute(query, (user_to_remove,))
         connection.commit()
 
     except mysql.connector.Error as e:
         logging.error(f"MySQL error: {e}")
-        response = make_response(jsonify({'response': 'Users could not be deleted'}), 400)
+        response = make_response(jsonify({'response': 'Hosts could not be deleted'}), 400)
         return response
 
     except Exception as e:
         logging.exception(f"Exception: {e}")
-        response = make_response(jsonify({'response': 'Users could not be deleted'}), 400)
+        response = make_response(jsonify({'response': 'Hosts could not be deleted'}), 400)
         return response
 
-    response = make_response(jsonify({'response': 'User was successfully deleted!'}, 200))
+    response = make_response(jsonify({'response': 'Host was successfully deleted!'}, 200))
 
     return response

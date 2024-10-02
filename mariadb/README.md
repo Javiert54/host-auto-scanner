@@ -43,7 +43,7 @@ use backend_db;
 for start using the database you have just deployed. If you want to check that everything is working correctly, you can execute:
 
 ```bash
-curl http://localhost:5000/get-users
+curl http://localhost:5000/get-hosts
 ```
 
 where you should get the following output:
