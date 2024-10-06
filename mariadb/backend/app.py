@@ -26,7 +26,7 @@ def get_users():
         connection = get_db_connection()
         cursor = connection.cursor()
 
-        query = "SELECT * FROM hostsToScann"
+        query = "SELECT * FROM users"
         cursor.execute(query)
         rows = cursor.fetchall()
 
