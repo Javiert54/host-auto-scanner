@@ -37,7 +37,7 @@ def runContainer(imageName:str, containerName:str, client=client):
         time.sleep(1)
     return container
 
-def runComposeUp(ymlFilePath:str=".",  build:bool=False, client=client):
+def runComposeUp(ymlFilePath:str="./docker-compose.yml",  build:bool=False, client=client):
     """
     Executes the services defined in a Docker Compose file.
     Args:
@@ -45,10 +45,11 @@ def runComposeUp(ymlFilePath:str=".",  build:bool=False, client=client):
         build (bool, optional): if it is True, the images are built before starting the containers. Defaults to False.
     """
 
-    command = ["docker", "compose", "-f", ymlFilePath, "up", "-d"]
+    command = ["docker-compose", "-f", ymlFilePath, "up", "-d"]
     if build:
         command.append("--build")
     try:
+        print("Ejecutando comando: "+" ".join(command))
         output = subprocess.run(command, check=True, capture_output=True)
         print(f"Servicios iniciados desde {ymlFilePath}")
         print(output.stdout.decode('utf-8'))
